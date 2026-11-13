@@ -1,0 +1,65 @@
+/* 일부러 와이어프레임 수준. 레이아웃(좌: 캔버스 / 우: 설정)만 잡고 꾸밈은 나중에. */
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0 auto; max-width: 1200px; padding: 0 24px; font: 13px/1.5 system-ui, sans-serif; color: #222; }
+h1 { font-size: 40px; line-height: 1.2; margin: 8px 0; }
+h2 { font-size: 14px; margin: 0 0 10px; }
+button, .button { font: inherit; padding: 6px 12px; border: 1px solid #222; background: #fff; color: #222; cursor: pointer; text-decoration: none; }
+button:disabled { opacity: .4; cursor: not-allowed; }
+button.active { background: #222; color: #fff; }
+button.link { border: 0; text-decoration: underline; background: none; color: inherit; }
+fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+
+.row { display: flex; align-items: center; gap: 8px; }
+.between { justify-content: space-between; }
+.center { justify-content: center; }
+.wrap { flex-wrap: wrap; }
+.hint { color: #777; font-size: 11px; margin: 8px 0; }
+
+.site-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 0; border-bottom: 1px solid #ccc; }
+.wordmark { font-weight: 700; font-size: 20px; color: inherit; text-decoration: none; }
+.intro { display: flex; align-items: center; justify-content: space-between; padding: 28px 0; }
+.sticker { width: 110px; height: 110px; border: 1px dashed #999; border-radius: 50%; display: grid; place-items: center; color: #999; font-size: 11px; }
+
+.workspace { display: grid; grid-template-columns: minmax(0, 1.33fr) minmax(320px, 1fr); border: 1px solid #ccc; }
+.camera-panel { background: #1c1c1c; color: #ddd; padding: 20px 28px; display: flex; flex-direction: column; gap: 12px; }
+.camera-panel > .row, .camera-panel > progress { width: 100%; max-width: 480px; margin: 0 auto; }
+.camera-panel button, .camera-panel .button { background: none; color: #ddd; border-color: #777; }
+.control-panel { padding: 20px 28px; }
+.control-panel section { padding: 18px 0; border-top: 1px solid #ccc; }
+.control-panel > .row { padding-bottom: 18px; }
+
+.stage { position: relative; width: 100%; max-width: 480px; aspect-ratio: 1; margin: 0 auto; background: #111; overflow: hidden; outline: 1px dashed #666; }
+#stage-host, #stage-host canvas, #result-gif { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 20px; text-align: center; background: #111d; }
+.overlay.clear { background: #1116; }
+.overlay h2, .overlay p { margin: 0; }
+#count { font-size: 120px; line-height: 1; font-weight: 700; }
+#rec-pill { position: absolute; top: 16px; left: 50%; transform: translateX(-50%); padding: 4px 10px; background: #000a; border: 1px solid #fff5; border-radius: 20px; color: #fff; font-size: 11px; }
+
+.capture-row { min-height: 80px; gap: 24px; }
+.capture-row > span { width: 130px; font-size: 11px; color: #999; }
+#shutter { width: 60px; height: 60px; border-radius: 50%; font-size: 22px; padding: 0; flex-shrink: 0; }
+
+.options button { flex: 1; padding: 8px 0; }
+textarea { width: 100%; font: inherit; font-size: 16px; font-weight: 700; padding: 8px; resize: none; }
+input[type=range] { width: 100%; }
+.swatches button { width: 30px; height: 30px; border-radius: 50%; padding: 0; }
+.swatches button.active { outline: 2px solid #222; outline-offset: 3px; }
+#custom-color { width: 34px; height: 34px; padding: 0; border: 1px dashed #999; background: none; cursor: pointer; }
+
+#error { width: 100%; max-width: 480px; margin: 0 auto; padding: 10px 14px; border: 1px solid #f88; color: #fbb; }
+.how { flex-wrap: wrap; gap: 14px; padding: 24px 0; border-bottom: 1px solid #ccc; font-size: 11px; color: #555; }
+footer { padding: 20px 0; font-size: 10px; color: #888; flex-wrap: wrap; }
+
+dialog { max-width: 460px; padding: 32px; border: 1px solid #222; }
+dialog::backdrop { background: #000a; }
+dialog .close { position: absolute; top: 12px; right: 12px; border: 0; }
+
+@media (max-width: 800px) {
+  body { padding: 0 14px; }
+  .site-header .note { display: none; }
+  .workspace { grid-template-columns: 1fr; }
+  .camera-panel, .control-panel { padding: 18px; }
+  h1 { font-size: 32px; }
+}

@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FACE LOOP — 나의 표정이 이모티콘이 되는 곳</title>
+  <meta name="description" content="3초의 표정, 무한한 리액션. 나만의 움직이는 GIF 이모티콘.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a href="./" class="wordmark">FACE LOOP</a>
+    <span class="note">A LITTLE EXPRESSION. AN ENDLESS LOOP.</span>
+    <button type="button" id="help-open">이용 가이드</button>
+  </header>
+
+  <section class="intro">
+    <div>
+      <small>YOUR FACE, YOUR REACTION.</small>
+      <h1>지금 그 표정,<br>그대로 루프.</h1>
+      <p>말보다 확실한 내 얼굴. 짧은 순간을 나만의 이모티콘으로.</p>
+    </div>
+    <div class="sticker">[ 스티커 자리 ]</div>
+  </section>
+
+  <main class="workspace" aria-label="GIF 이모티콘 스튜디오">
+    <!-- 왼쪽: 카메라 / 캔버스 -->
+    <section class="camera-panel">
+      <div class="row between"><span id="stage-label">PREVIEW MODE</span><span>480 × 480</span></div>
+
+      <p id="error" role="alert" class="row between" hidden><span id="error-text"></span><button type="button" id="error-close" aria-label="오류 메시지 닫기">✕</button></p>
+
+      <div class="stage">
+        <div id="stage-host"></div>
+        <img id="result-gif" hidden>
+        <div id="invite" class="overlay">
+          <h2>오늘의 표정은 어떤가요?</h2>
+          <p>카메라를 켜고 나만의 리액션을 만들어 보세요.</p>
+          <button type="button" id="camera-on">카메라 켜기 →</button>
+        </div>
+        <div id="countdown" class="overlay clear" role="status" hidden><span id="count">3</span><p>표정 준비, 곧 시작해요!</p></div>
+        <div id="encoding" class="overlay" role="status" hidden><h2>표정에 루프를 더하는 중</h2><p id="encode-progress">0%</p></div>
+        <div id="rec-pill" hidden>● REC <span id="remain"></span></div>
+      </div>
+
+      <div class="row between">
+        <span id="meta"></span>
+        <span class="row">
+          <button type="button" id="camera-off" hidden>카메라 끄기</button>
+          <button type="button" id="mirror">좌우 반전</button>
+        </span>
+      </div>
+      <progress id="capture-progress" max="100" value="0" hidden></progress>
+
+      <div id="capture-idle" class="row center capture-row">
+        <span>MAKE A FACE.<br><span id="capture-hint"></span></span>
+        <button type="button" id="shutter">●</button>
+        <span id="capture-meta"></span>
+      </div>
+      <div id="capture-done" class="row center capture-row" hidden>
+        <button type="button" id="retake">↺ 다시 촬영</button>
+        <a id="download" class="button">↓ GIF 저장하기</a>
+      </div>
+      <div class="row center">
+        <button type="button" id="cancel" hidden>✕ 촬영 취소</button>
+      </div>
+    </section>
+
+    <!-- 오른쪽: 설정 -->
+    <aside class="control-panel">
+      <div class="row between"><strong>MAKE IT YOURS</strong></div>
+      <fieldset id="controls">
+        <section>
+          <h2>촬영 길이</h2>
+          <div id="durations" class="row options" role="group" aria-label="촬영 길이"></div>
+          <p class="hint">짧을수록 경쾌한 리액션! 촬영 전 카운트다운은 3초예요.</p>
+        </section>
+
+        <section>
+          <h2>01 무드 고르기</h2>
+          <div id="effects" class="row options"></div>
+          <div class="row between hint"><label for="intensity" id="intensity-label"></label><span id="intensity-value"></span></div>
+          <input id="intensity" type="range" min="0" max="100">
+        </section>
+
+        <section>
+          <div class="row between"><h2>02 한마디 더하기</h2><span id="caption-count" class="hint"></span></div>
+          <textarea id="caption" aria-label="이모티콘 문구" maxlength="30" rows="2" placeholder="지금 하고 싶은 말은?"></textarea>
+          <p class="hint">↵ 최대 두 줄까지</p>
+          <div id="presets" class="row wrap"></div>
+          <div class="row between">
+            <span class="row">텍스트 위치
+              <button type="button" id="pos-top">위</button>
+              <button type="button" id="pos-bottom">아래</button>
+            </span>
+            <label>크기
+              <select id="text-size" aria-label="문구 크기">
+                <option value="32">작게</option><option value="43" selected>보통</option><option value="56">크게</option>
+              </select>
+            </label>
+          </div>
+        </section>
+
+        <section>
+          <div class="row between"><h2>03 나만의 컬러</h2><span id="color-hex" class="hint"></span></div>
+          <div class="row">
+            <span id="colors" class="row swatches"></span>
+            <input type="color" id="custom-color" aria-label="직접 색상 고르기" title="직접 색상 고르기">
+          </div>
+        </section>
+      </fieldset>
+      <p class="hint">잘 나온 얼굴보다, <strong>나다운 표정.</strong> 조금 이상해도 괜찮아요. 그게 매력이니까.</p>
+    </aside>
+  </main>
+
+  <section class="how row">
+    <strong>HOW TO LOOP</strong>
+    <span>01 / 마음에 드는 무드와 문구를 고르고</span><span>→</span>
+    <span>02 / <span id="how-duration">1</span>초 동안, 표정으로 말하고</span><span>→</span>
+    <span>03 / GIF로 저장해서 마음껏 보내세요</span>
+  </section>
+
+  <footer class="row between">
+    <span>© FACE LOOP STUDIO</span>
+    <span>얼굴은 여기서만. 모든 촬영과 변환은 내 브라우저에서.</span>
+    <span>MADE TO EXPRESS</span>
+  </footer>
+
+  <dialog id="help" aria-labelledby="help-title">
+    <button type="button" data-close aria-label="가이드 닫기" class="close">✕</button>
+    <small>A QUICK GUIDE</small>
+    <h2 id="help-title">짧은 표정이 나만의 리액션으로.</h2>
+    <ol>
+      <li>카메라를 켜고 브라우저의 카메라 권한을 허용해 주세요.</li>
+      <li>효과, 문구, 색상을 고르세요. 미리보기에 바로 반영돼요.</li>
+      <li>동그란 촬영 버튼을 누르면 3, 2, 1 카운트다운 후 선택한 길이만큼 촬영해요.</li>
+      <li>완성된 GIF를 확인하고 저장하세요. 촬영 중에는 화면을 켜 두세요.</li>
+    </ol>
+    <p>영상과 GIF는 서버로 전송하지 않으며, 새로고침하면 작업 내용이 사라집니다.</p>
+    <button type="button" data-close>만들러 가기 →</button>
+  </dialog>
+
+  <!-- 라이브러리 → 부품 클래스 → 관리자 → 화면 연결 순서로 불러온다 -->
+  <script src="js/lib/p5.min.js"></script>
+  <script src="js/lib/gif.js"></script>
+  <script src="js/core/Camera.js"></script>
+  <script src="js/core/Effect.js"></script>
+  <script src="js/core/Caption.js"></script>
+  <script src="js/core/Recorder.js"></script>
+  <script src="js/core/EmojiManager.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
